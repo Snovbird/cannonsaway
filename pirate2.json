@@ -1,0 +1,1005 @@
+{
+    "#comment": "ShipWreck - Pandemonium - Snowbird | ELM: Ver-10.2 [RFL v1.23]",
+    "objects": [
+        {
+            "objclass": "LevelDefinition",
+            "objdata": {
+                "StartingSun": 300,
+                "Description": "{PLAYER}'s Search For Scubert II",
+                "GameOverDialogShowBrain": false,
+                "Loot": "RTID(NoLoot@LevelModules)",
+                "ResourceGroupNames": [
+                    "Tombstone_Dark_Special",
+                    "Tombstone_Dark_Effects",
+                    "ZombieParrotrousleGroup",
+                    "ZombiePirateCaptainGroup",
+                    "ZombieCarnieMagicianGroup",
+                    "ZombieCarnieDoveGroup",
+                    "ZombieWestChickenGroup"
+                ],
+                "Modules": [
+                    "RTID(PirateCannonTutorial@CurrentLevel)",
+                    "RTID(CannonMinigame@CurrentLevel)",
+                    "RTID(ChallengeModule@CurrentLevel)",
+                    "RTID(ZombiesDeadWinCon@LevelModules)",
+                    "RTID(NewWaves@CurrentLevel)",
+                    "RTID(IPP_Protect@CurrentLevel)",
+                    "RTID(GI@CurrentLevel)",
+                    "RTID(Rails@CurrentLevel)"
+                ],
+                "MusicType": "MiniGame_B",
+                "Name": "ShipWreck - BONUS - SNowbird - TEST",
+                "NormalPresentTable": "pirate_normal_01",
+                "ReplayRewardParam": "none",
+                "ReplayRewardType": "none",
+                "ShinyPresentTable": "pirate_shiny_01",
+                "StageModule": "RTID(PirateStage@LevelModules)",
+                "UseTutorialOutro": false,
+                "SuppressDynamicTutorial": true
+            }
+        },
+        {
+            "aliases": [
+                "PirateCannonTutorial"
+            ],
+            "objclass": "PirateCannonTutorialProperties",
+            "objdata": {
+                "ResourceGroupNames": [],
+                "ShowTutorial": true
+            }
+        },
+        {
+            "aliases": [
+                "ChallengeModule"
+            ],
+            "objclass": "StarChallengeModuleProperties",
+            "objdata": {
+                "Challenges": [
+                    [
+                        "RTID(BeatTheLevel@CurrentLevel)"
+                    ]
+                ],
+                "ChallengesAlwaysAvailable": true
+            }
+        },
+        {
+            "aliases": [
+                "BeatTheLevel"
+            ],
+            "objclass": "StarChallengeBeatTheLevelProps",
+            "objdata": {
+                "Description": "[STARCHALLENGE_CANNON_MINIGAME]",
+                "DescriptiveName": "[STARCHALLENGE_CANNON_MINIGAME_NAME]"
+            }
+        },
+        {
+            "aliases": [
+                "GI"
+            ],
+            "objclass": "InitialGridItemProperties",
+            "objdata": {
+                "InitialGridItemPlacements": [
+                    {
+                        "GridX": 4,
+                        "GridY": 2,
+                        "TypeName": "effect_nighttime"
+                    },
+                    {
+                        "GridX": 4,
+                        "GridY": 4,
+                        "Level": -1,
+                        "TypeName": "gravestone_pirate"
+                    },
+                    {
+                        "GridX": 2,
+                        "GridY": 0,
+                        "Level": -1,
+                        "TypeName": "gravestone_pirate"
+                    }
+                ]
+            }
+        },
+        {
+            "aliases": [
+                "IPP"
+            ],
+            "objclass": "InitialPlantProperties",
+            "objdata": {
+                "InitialPlantPlacements": [
+                    {
+                        "GridX": 0,
+                        "GridY": 2,
+                        "Level": -1,
+                        "TypeName": "magnifyinggrass"
+                    },
+                    {
+                        "GridX": 2,
+                        "GridY": 1,
+                        "Level": -1,
+                        "TypeName": "coconutcannon",
+                        "Condition": "icecubed"
+                    },
+                    {
+                        "GridX": 2,
+                        "GridY": 2,
+                        "Level": -1,
+                        "TypeName": "coconutcannon",
+                        "Condition": "icecubed"
+                    },
+                    {
+                        "GridX": 2,
+                        "GridY": 4,
+                        "Level": -1,
+                        "TypeName": "coconutcannon",
+                        "Condition": "icecubed"
+                    }
+                ]
+            }
+        },
+        {
+            "aliases": [
+                "IPP_Protect"
+            ],
+            "objclass": "ProtectThePlantChallengeProperties",
+            "objdata": {
+                "Plants": [
+                    {
+                        "GridX": 0,
+                        "GridY": 2,
+                        "Level": 0,
+                        "PlantType": "magnifyinggrass"
+                    }
+                ],
+                "MustProtectCount": 1
+            }
+        },
+        {
+            "aliases": [
+                "Rails"
+            ],
+            "objclass": "RailcartProperties",
+            "objdata": {
+                "RailcartType": "railcart_pirate",
+                "Railcarts": [
+                    {
+                        "Column": 0,
+                        "Row": 2
+                    }
+                ],
+                "Rails": [
+                    {
+                        "Column": 0,
+                        "RowEnd": 0,
+                        "RowStart": 0
+                    },
+                    {
+                        "Column": 0,
+                        "RowEnd": 1,
+                        "RowStart": 1
+                    },
+                    {
+                        "Column": 0,
+                        "RowEnd": 2,
+                        "RowStart": 2
+                    },
+                    {
+                        "Column": 0,
+                        "RowEnd": 3,
+                        "RowStart": 3
+                    },
+                    {
+                        "Column": 0,
+                        "RowEnd": 4,
+                        "RowStart": 4
+                    }
+                ]
+            }
+        },
+        {
+            "aliases": [
+                "CannonMinigame"
+            ],
+            "objclass": "CannonMinigameProperties",
+            "objdata": {
+                "BaseMovementRate": 80,
+                "BaseZombieKillScore": 100,
+                "BufferDistance": 50,
+                "ComboBrackets": [
+                    {
+                        "AudioCue": "Play_CrazyDave_Short",
+                        "Exclamations": [
+                            "[DAVE_CANNONMINIGAME_3_KILLED_1]",
+                            "[DAVE_CANNONMINIGAME_3_KILLED_2]",
+                            "[DAVE_CANNONMINIGAME_3_KILLED_3]"
+                        ],
+                        "MessageColor": {
+                            "mAlpha": 255,
+                            "mBlue": 220,
+                            "mGreen": 255,
+                            "mRed": 220
+                        },
+                        "ScoreMultiplier": 2,
+                        "ZombiesKilled": 3
+                    },
+                    {
+                        "AudioCue": "Play_CrazyDave_Scream",
+                        "Exclamations": [
+                            "[DAVE_CANNONMINIGAME_5_KILLED_1]",
+                            "[DAVE_CANNONMINIGAME_5_KILLED_2]",
+                            "[DAVE_CANNONMINIGAME_5_KILLED_3]"
+                        ],
+                        "MessageColor": {
+                            "mAlpha": 255,
+                            "mBlue": 255,
+                            "mGreen": 220,
+                            "mRed": 220
+                        },
+                        "ScoreMultiplier": 3,
+                        "ZombiesKilled": 5
+                    },
+                    {
+                        "AudioCue": "Play_CrazyDave_Scream2",
+                        "Exclamations": [
+                            "[DAVE_CANNONMINIGAME_8_KILLED_1]",
+                            "[DAVE_CANNONMINIGAME_8_KILLED_2]",
+                            "[DAVE_CANNONMINIGAME_8_KILLED_3]"
+                        ],
+                        "MessageColor": {
+                            "mAlpha": 255,
+                            "mBlue": 220,
+                            "mGreen": 240,
+                            "mRed": 255
+                        },
+                        "ScoreMultiplier": 4,
+                        "ZombiesKilled": 8
+                    },
+                    {
+                        "AudioCue": "Play_CrazyDave_Crazy",
+                        "Exclamations": [
+                            "[DAVE_CANNONMINIGAME_12_KILLED_1]",
+                            "[DAVE_CANNONMINIGAME_12_KILLED_2]",
+                            "[DAVE_CANNONMINIGAME_12_KILLED_3]"
+                        ],
+                        "MessageColor": {
+                            "mAlpha": 255,
+                            "mBlue": 200,
+                            "mGreen": 200,
+                            "mRed": 255
+                        },
+                        "ScoreMultiplier": 2,
+                        "ZombiesKilled": 12
+                    },
+                    {
+                        "AudioCue": "Play_CrazyDave_Crazy",
+                        "Exclamations": [
+                            "ABSOLUTE CINEMA"
+                        ],
+                        "MessageColor": {
+                            "mAlpha": 255,
+                            "mBlue": 0,
+                            "mGreen": 0,
+                            "mRed": 255
+                        },
+                        "ScoreMultiplier": 3,
+                        "ZombiesKilled": 15
+                    }
+                ],
+                "Lanes": [
+                    {
+                        "SplinePoints": [
+                            {
+                                "x": 802,
+                                "y": 220
+                            },
+                            {
+                                "x": 738,
+                                "y": 220
+                            },
+                            {
+                                "x": 674,
+                                "y": 220
+                            },
+                            {
+                                "x": 674,
+                                "y": 296
+                            },
+                            {
+                                "x": 610,
+                                "y": 296
+                            },
+                            {
+                                "x": 610,
+                                "y": 372
+                            },
+                            {
+                                "x": 610,
+                                "y": 448
+                            },
+                            {
+                                "x": 674,
+                                "y": 448
+                            },
+                            {
+                                "x": 674,
+                                "y": 524
+                            },
+                            {
+                                "x": 738,
+                                "y": 524
+                            },
+                            {
+                                "x": 802,
+                                "y": 524
+                            }
+                        ]
+                    },
+                    {
+                        "SplinePoints": [
+                            {
+                                "x": 802,
+                                "y": 296
+                            },
+                            {
+                                "x": 738,
+                                "y": 296
+                            },
+                            {
+                                "x": 674,
+                                "y": 372
+                            },
+                            {
+                                "x": 738,
+                                "y": 448
+                            },
+                            {
+                                "x": 802,
+                                "y": 448
+                            },
+                            {
+                                "x": 546,
+                                "y": 600
+                            },
+                            {
+                                "x": 546,
+                                "y": 524
+                            },
+                            {
+                                "x": 546,
+                                "y": 448
+                            },
+                            {
+                                "x": 546,
+                                "y": 372
+                            },
+                            {
+                                "x": 546,
+                                "y": 296
+                            },
+                            {
+                                "x": 546,
+                                "y": 220
+                            },
+                            {
+                                "x": 546,
+                                "y": 144
+                            }
+                        ]
+                    },
+                    {
+                        "SplinePoints": [
+                            {
+                                "x": 802,
+                                "y": 372
+                            },
+                            {
+                                "x": 738,
+                                "y": 372
+                            },
+                            {
+                                "x": 674,
+                                "y": 372
+                            },
+                            {
+                                "x": 610,
+                                "y": 372
+                            },
+                            {
+                                "x": 546,
+                                "y": 372
+                            },
+                            {
+                                "x": 610,
+                                "y": 372
+                            },
+                            {
+                                "x": 674,
+                                "y": 372
+                            },
+                            {
+                                "x": 738,
+                                "y": 372
+                            },
+                            {
+                                "x": 802,
+                                "y": 372
+                            },
+                            {
+                                "x": 610,
+                                "y": 600
+                            },
+                            {
+                                "x": 610,
+                                "y": 524
+                            },
+                            {
+                                "x": 610,
+                                "y": 448
+                            },
+                            {
+                                "x": 610,
+                                "y": 372
+                            },
+                            {
+                                "x": 610,
+                                "y": 296
+                            },
+                            {
+                                "x": 610,
+                                "y": 220
+                            },
+                            {
+                                "x": 610,
+                                "y": 144
+                            }
+                        ]
+                    },
+                    {
+                        "SplinePoints": [
+                            {
+                                "x": 802,
+                                "y": 448
+                            },
+                            {
+                                "x": 738,
+                                "y": 448
+                            },
+                            {
+                                "x": 674,
+                                "y": 372
+                            },
+                            {
+                                "x": 738,
+                                "y": 296
+                            },
+                            {
+                                "x": 802,
+                                "y": 296
+                            },
+                            {
+                                "x": 546,
+                                "y": 144
+                            },
+                            {
+                                "x": 546,
+                                "y": 220
+                            },
+                            {
+                                "x": 546,
+                                "y": 296
+                            },
+                            {
+                                "x": 546,
+                                "y": 372
+                            },
+                            {
+                                "x": 546,
+                                "y": 448
+                            },
+                            {
+                                "x": 546,
+                                "y": 524
+                            },
+                            {
+                                "x": 546,
+                                "y": 600
+                            }
+                        ]
+                    },
+                    {
+                        "SplinePoints": [
+                            {
+                                "x": 802,
+                                "y": 524
+                            },
+                            {
+                                "x": 738,
+                                "y": 524
+                            },
+                            {
+                                "x": 674,
+                                "y": 524
+                            },
+                            {
+                                "x": 674,
+                                "y": 448
+                            },
+                            {
+                                "x": 610,
+                                "y": 448
+                            },
+                            {
+                                "x": 610,
+                                "y": 372
+                            },
+                            {
+                                "x": 610,
+                                "y": 296
+                            },
+                            {
+                                "x": 674,
+                                "y": 296
+                            },
+                            {
+                                "x": 674,
+                                "y": 220
+                            },
+                            {
+                                "x": 738,
+                                "y": 220
+                            },
+                            {
+                                "x": 802,
+                                "y": 220
+                            }
+                        ]
+                    }
+                ],
+                "MaxRewardGold": 110,
+                "MinRewardGold": 100,
+                "MinScore": 25000,
+                "ResourceGroupNames": [],
+                "RowHasCannon": [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ],
+                "SlowdownMovementRate": 45
+            }
+        },
+        {
+            "aliases": [
+                "NewWaves"
+            ],
+            "objclass": "WaveManagerModuleProperties",
+            "objdata": {
+                "WaveManagerProps": "RTID(WaveManagerProps@CurrentLevel)"
+            }
+        },
+        {
+            "aliases": [
+                "WaveManagerProps"
+            ],
+            "objclass": "WaveManagerProperties",
+            "objdata": {
+                "FlagWaveInterval": 7,
+                "SuppressFlagZombie": true,
+                "WaveCount": 4,
+                "WaveSpendingPointIncrement": 60,
+                "WaveSpendingPoints": 600,
+                "Waves": [
+                    [
+                        "RTID(Wave1@CurrentLevel)",
+                        "RTID(GridSpawn1@.)"
+                    ],
+                    [
+                        "RTID(Wave2@CurrentLevel)",
+                        "RTID(deletegrave@.)",
+                        "RTID(GridSpawn2@.)"
+                    ],
+                    [
+                        "RTID(Wave3@CurrentLevel)",
+                        "RTID(deletegrave@.)",
+                        "RTID(GridSpawn3@.)"
+                    ],
+                    [
+                        "RTID(Wave4@CurrentLevel)",
+                        "RTID(deletegrave@.)",
+                        "RTID(GridSpawn4@.)"
+                    ]
+                ]
+            }
+        },
+        {
+            "aliases": [
+                "Wave1"
+            ],
+            "objclass": "SpawnZombiesJitteredWaveActionProps",
+            "objdata": {
+                "AddToZombiePool": [
+                    {
+                        "Type": "RTID(seagull@ZombieTypes)"
+                    }
+                ],
+                "Zombies": [
+                    {
+                        "Row": "1",
+                        "Type": "RTID(pirate_captain_parrot@ZombieTypes)"
+                    },
+                    {
+                        "Row": "1",
+                        "Type": "RTID(pirate_captain_parrot@ZombieTypes)"
+                    },
+                    {
+                        "Row": "1",
+                        "Type": "RTID(pirate_captain_parrot@ZombieTypes)"
+                    }
+                ]
+            }
+        },
+        {
+            "aliases": [
+                "GridSpawn1"
+            ],
+            "objclass": "SpawnGravestonesWaveActionProps",
+            "objdata": {
+                "GravestonePool": [
+                    {
+                        "Count": 99,
+                        "Type": "RTID(SpawnCoconut@.)"
+                    },
+                    {
+                        "Count": 99,
+                        "Type": "RTID(SpawnBanana@.)"
+                    }
+                ],
+                "SpawnPositionsPool": [
+                    {
+                        "mX": 1,
+                        "mY": 1
+                    },
+                    {
+                        "mX": 1,
+                        "mY": 3
+                    }
+                ],
+                "SpawnEffectAnimID": "POPANIM_EFFECTS_PLANT_BURNT",
+                "SpawnSoundID": "Play_Zomb_Egypt_TombRaiser_Grave_Rise",
+                "DisplacePlants": true,
+                "RandomPlacement": true,
+                "ShakeScreen": true,
+                "GridClassesToDestroy": []
+            }
+        },
+        {
+            "aliases": [
+                "SpawnBanana"
+            ],
+            "objclass": "GridItemType",
+            "objdata": {
+                "TypeName": "presentPlantOnDestruction",
+                "GridItemClass": "GridItemGravestonePlantOnDestruction",
+                "ResourceGroups": [
+                    "Birthday_Gravestone"
+                ],
+                "Properties": "RTID(PlantSpawnBanana@.)"
+            }
+        },
+        {
+            "aliases": [
+                "PlantSpawnBanana"
+            ],
+            "objclass": "GridItemGravestonePlantOnDestructionPropertySheet",
+            "objdata": {
+                "ArtCenter": {
+                    "x": 98,
+                    "y": 127
+                },
+                "BreakEffect": "POPANIM_EFFECTS_TOMBSTONE_BIRTHDAY_GRAVESTONE_DAMAGE",
+                "BreakEffectSound": "",
+                "DamageStateCount": 5,
+                "HitRectOffsetWidth": -30,
+                "HitRectOffsetX": 15,
+                "Hitpoints": 1,
+                "PopAnim": "POPANIM_GRAVESTONES_BIRTHDAY_GRAVESTONE",
+                "ScaledProps": [
+                    {
+                        "Arg1": 1.3,
+                        "Arg2": 0.05,
+                        "Formula": "standard",
+                        "Key": "Hitpoints"
+                    }
+                ],
+                "PlantTypeToSpawn": "banana"
+            }
+        },
+        {
+            "aliases": [
+                "SpawnCoconut"
+            ],
+            "objclass": "GridItemType",
+            "objdata": {
+                "TypeName": "presentPlantOnDestruction",
+                "GridItemClass": "GridItemGravestonePlantOnDestruction",
+                "ResourceGroups": [
+                    "Xmas_Gravestone"
+                ],
+                "Properties": "RTID(PlantSpawnCoconut@.)"
+            }
+        },
+        {
+            "aliases": [
+                "PlantSpawnCoconut"
+            ],
+            "objclass": "GridItemGravestonePlantOnDestructionPropertySheet",
+            "objdata": {
+                "ArtCenter": {
+                    "x": 98,
+                    "y": 127
+                },
+                "BreakEffect": "POPANIM_EFFECTS_TOMBSTONE_XMAS_GRAVESTONE_DAMAGE",
+                "BreakEffectSound": "",
+                "DamageStateCount": 5,
+                "HitRectOffsetWidth": -30,
+                "HitRectOffsetX": 15,
+                "Hitpoints": 1,
+                "PopAnim": "POPANIM_GRAVESTONES_XMAS_GRAVESTONE",
+                "ScaledProps": [
+                    {
+                        "Arg1": 1.3,
+                        "Arg2": 0.05,
+                        "Formula": "standard",
+                        "Key": "Hitpoints"
+                    }
+                ],
+                "PlantTypeToSpawn": "coconutcannon"
+            }
+        },
+        {
+            "aliases": [
+                "SpawnPineapple"
+            ],
+            "objclass": "GridItemType",
+            "objdata": {
+                "TypeName": "presentPlantOnDestruction",
+                "GridItemClass": "GridItemGravestonePlantOnDestruction",
+                "ResourceGroups": [
+                    "Valentines_Gravestone"
+                ],
+                "Properties": "RTID(PlantSpawnPineapple@.)"
+            }
+        },
+        {
+            "aliases": [
+                "PlantSpawnPineapple"
+            ],
+            "objclass": "GridItemGravestonePlantOnDestructionPropertySheet",
+            "objdata": {
+                "ArtCenter": {
+                    "x": 98,
+                    "y": 127
+                },
+                "BreakEffect": "POPANIM_EFFECTS_VALENTINES_GRAVESTONE_DAMAGE",
+                "BreakEffectSound": "",
+                "DamageStateCount": 5,
+                "HitRectOffsetWidth": -30,
+                "HitRectOffsetX": 15,
+                "Hitpoints": 1,
+                "PopAnim": "POPANIM_GRAVESTONES_VALENTINES_GRAVESTONE",
+                "ScaledProps": [
+                    {
+                        "Arg1": 1.3,
+                        "Arg2": 0.05,
+                        "Formula": "standard",
+                        "Key": "Hitpoints"
+                    }
+                ],
+                "PlantTypeToSpawn": "pineapple"
+            }
+        },
+        {
+            "aliases": [
+                "deletegrave"
+            ],
+            "objclass": "SpawnGravestonesWaveActionProps",
+            "objdata": {
+                "GravestonePool": [],
+                "SpawnPositionsPool": [],
+                "SpawnEffectAnimID": "POPANIM_EFFECTS_TOMBSTONE_DARK_SPAWN_EFFECT",
+                "SpawnSoundID": "Play_Zomb_Egypt_TombRaiser_Grave_Rise",
+                "DisplacePlants": true,
+                "RandomPlacement": true,
+                "ShakeScreen": false,
+                "GridClassesToDestroy": [
+                    "GridItemGravestonePlantOnDestruction"
+                ]
+            }
+        },
+        {
+            "aliases": [
+                "GridSpawn2"
+            ],
+            "objclass": "SpawnGravestonesWaveActionProps",
+            "objdata": {
+                "GravestonePool": [
+                    {
+                        "Count": 99,
+                        "Type": "RTID(SpawnCoconut@.)"
+                    },
+                    {
+                        "Count": 99,
+                        "Type": "RTID(SpawnBanana@.)"
+                    },
+                    {
+                        "Count": 99,
+                        "Type": "RTID(SpawnPineapple@.)"
+                    }
+                ],
+                "SpawnPositionsPool": [
+                    {
+                        "mX": 1,
+                        "mY": 2
+                    },
+                    {
+                        "mX": 1,
+                        "mY": 1
+                    },
+                    {
+                        "mX": 1,
+                        "mY": 3
+                    }
+                ],
+                "SpawnEffectAnimID": "POPANIM_EFFECTS_PLANT_BURNT",
+                "SpawnSoundID": "Play_Zomb_Egypt_TombRaiser_Grave_Rise",
+                "DisplacePlants": true,
+                "RandomPlacement": true,
+                "ShakeScreen": true,
+                "GridClassesToDestroy": []
+            }
+        },
+        {
+            "aliases": [
+                "Wave2"
+            ],
+            "objclass": "SpawnZombiesJitteredWaveActionProps",
+            "objdata": {
+                "Zombies": [
+                    {
+                        "Row": 0,
+                        "Type": "RTID(pirate_captain_parrot@ZombieTypes)"
+                    },
+                    {
+                        "Row": 0,
+                        "Type": "RTID(pirate_captain_parrot@ZombieTypes)"
+                    },
+                    {
+                        "Row": 0,
+                        "Type": "RTID(pirate_captain_parrot@ZombieTypes)"
+                    }
+                ]
+            }
+        },
+        {
+            "aliases": [
+                "GridSpawn3"
+            ],
+            "objclass": "SpawnGravestonesWaveActionProps",
+            "objdata": {
+                "GravestonePool": [
+                    {
+                        "Count": 99,
+                        "Type": "RTID(SpawnCoconut@.)"
+                    }
+                ],
+                "SpawnPositionsPool": [
+                    {
+                        "mX": 1,
+                        "mY": 4
+                    }
+                ],
+                "SpawnEffectAnimID": "POPANIM_EFFECTS_PLANT_BURNT",
+                "SpawnSoundID": "Play_Zomb_Egypt_TombRaiser_Grave_Rise",
+                "DisplacePlants": true,
+                "RandomPlacement": true,
+                "ShakeScreen": true,
+                "GridClassesToDestroy": []
+            }
+        },
+        {
+            "aliases": [
+                "Wave3"
+            ],
+            "objclass": "SpawnZombiesJitteredWaveActionProps",
+            "objdata": {
+                "Zombies": [
+                    {
+                        "Row": 4,
+                        "Type": "RTID(pirate_captain_parrot@ZombieTypes)"
+                    },
+                    {
+                        "Row": 4,
+                        "Type": "RTID(pirate_captain_parrot@ZombieTypes)"
+                    },
+                    {
+                        "Row": 4,
+                        "Type": "RTID(pirate_captain_parrot@ZombieTypes)"
+                    }
+                ]
+            }
+        },
+        {
+            "aliases": [
+                "GridSpawn4"
+            ],
+            "objclass": "SpawnGravestonesWaveActionProps",
+            "objdata": {
+                "GravestonePool": [
+                    {
+                        "Count": 99,
+                        "Type": "RTID(SpawnCoconut@.)"
+                    },
+                    {
+                        "Count": 99,
+                        "Type": "RTID(SpawnCoconut@.)"
+                    },
+                    {
+                        "Count": 99,
+                        "Type": "RTID(SpawnCoconut@.)"
+                    },
+                    {
+                        "Count": 99,
+                        "Type": "RTID(SpawnCoconut@.)"
+                    }
+                ],
+                "SpawnPositionsPool": [
+                    {
+                        "mX": 1,
+                        "mY": 0
+                    },
+                    {
+                        "mX": 2,
+                        "mY": 1
+                    },
+                    {
+                        "mX": 3,
+                        "mY": 1
+                    },
+                    {
+                        "mX": 3,
+                        "mY": 0
+                    }
+                ],
+                "SpawnEffectAnimID": "POPANIM_EFFECTS_PLANT_BURNT",
+                "SpawnSoundID": "Play_Zomb_Egypt_TombRaiser_Grave_Rise",
+                "DisplacePlants": true,
+                "RandomPlacement": true,
+                "ShakeScreen": true,
+                "GridClassesToDestroy": []
+            }
+        },
+        {
+            "aliases": [
+                "Wave4"
+            ],
+            "objclass": "SpawnZombiesJitteredWaveActionProps",
+            "objdata": {
+                "Zombies": [
+                    {
+                        "Row": 2,
+                        "Type": "RTID(seagull@ZombieTypes)"
+                    },
+                    {
+                        "Row": 2,
+                        "Type": "RTID(seagull@ZombieTypes)"
+                    },
+                    {
+                        "Row": 2,
+                        "Type": "RTID(seagull@ZombieTypes)"
+                    }
+                ]
+            }
+        }
+    ],
+    "version": 1
+}

@@ -11,17 +11,19 @@ class GridApp(wx.Frame):
         # Main panel
         self.panel = wx.Panel(self)
         
-        # List to store dictionaries
+        # init variables
         self.filecount = 1
         self.entity_data_list = []
         self.gridspawns = []
         self.gridpos = []
         self.buttons = []
-        self.wavecount = 1
+        self.wavecount = 0
         self.showing_what = "zombies"
         self.script_directory = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(self.script_directory,'DONOTTOUCH',"rawlvl.json")) as file:
             self.basejson = json.load(file)
+
+
         # Create the grid of buttons
         self.create_grid()
         
@@ -52,9 +54,9 @@ class GridApp(wx.Frame):
                     func_position = position - 6*len(zombies)  # 0-4
                     
         # Button 1: Clear list after confirmation
-        clear_btn = wx.Button(self.panel, label="Clear List")
-        clear_btn.Bind(wx.EVT_BUTTON, self.on_clear_list)
-        grid_sizer.Add(clear_btn, 1, wx.EXPAND)
+        browse_btn = wx.Button(self.panel, label="Browse Jsons")
+        browse_btn.Bind(wx.EVT_BUTTON, self.on_browse_files)
+        grid_sizer.Add(browse_btn, 1, wx.EXPAND)
         # Button 2: toggle 
         self.toggle_btn = wx.Button(self.panel, label="Toggle to\nGRAVESTONES")
         self.toggle_btn.SetBackgroundColour("#BBBBBB")
@@ -73,7 +75,11 @@ class GridApp(wx.Frame):
         initgi_btn = wx.Button(self.panel, label="GI\nInitial")
         initgi_btn.Bind(wx.EVT_BUTTON, self.on_chooseGI)
         grid_sizer.Add(initgi_btn, 1, wx.EXPAND)
-        # Button 5: Exit
+        # Button 6: unused
+        # exit_btn = wx.Button(self.panel, label="Choose\nFile")
+        # exit_btn.Bind(wx.EVT_BUTTON, self.on_exit)
+        # grid_sizer.Add(exit_btn, 1, wx.EXPAND)
+        # Button 7: Exit
         exit_btn = wx.Button(self.panel, label="Exit")
         exit_btn.Bind(wx.EVT_BUTTON, self.on_exit)
         grid_sizer.Add(exit_btn, 1, wx.EXPAND)
@@ -81,6 +87,29 @@ class GridApp(wx.Frame):
         # Set the sizer for the panel
         self.panel.SetSizer(grid_sizer)
     
+    def on_browse_files(self, event):
+        dlg = wx.FileDialog(self, "Choose a file", wildcard="*.json", style=wx.FD_OPEN)
+        if dlg.ShowModal() == wx.ID_OK:
+            path = dlg.GetPath()
+            # wx.MessageBox(f"Selected file: {path}", "File Selected")
+            self.status_bar.SetStatusText(f"Selected file: {os.path.basename(path)}")
+            self.entity_data_list = []
+            self.gridspawns = []
+            self.gridpos = []
+            
+            with open(path) as newjson:
+                self.basejson = json.load(newjson)
+
+            currentindexnumber = -1
+            try:
+                while self.basejson['objects'][currentindexnumber]['aliases'][0][:4] != 'Wave':
+                    currentindexnumber -= 1
+                else:
+                    self.wavecount = int(self.basejson['objects'][currentindexnumber]['aliases'][0][-1])
+                    print("WAVECOUNT: ", self.wavecount)
+            except Exception as e:
+                wx.MessageBox("WaveCount error: " + str(e),"Error")
+                
     def on_numbered_button(self, event):
         # Get the button entity_type
         btn = event.GetEventObject()
@@ -99,7 +128,7 @@ class GridApp(wx.Frame):
             # Update the status bar
             self.status_bar.SetStatusText(f"Added: {data}")
     
-    def on_clear_list(self, event):
+    def on_clear_list(self, event): # UNUSED
         #  confirmation dialog
         dlg = wx.MessageDialog(
             self, 
@@ -117,7 +146,7 @@ class GridApp(wx.Frame):
             self.gridpos = []
             #
             self.buttons = []
-            self.wavecount = 1
+            self.wavecount = 0
             self.showing_what = "zombies"
             with open(os.path.join(self.script_directory,'DONOTTOUCH',"rawlvl.json")) as file:
                 self.basejson = json.load(file)
@@ -223,8 +252,13 @@ class GridApp(wx.Frame):
             self.showing_what = "zombies"
             self.toggle_btn.SetLabel(f"toggle to\nGRAVESTONES")
             self.toggle_btn.SetBackgroundColour("#BBBBBB")
+            rowcount = -1
+            
             for i, btn in enumerate(self.buttons):
-                btn.SetLabel(str(f"{zombies[i % len(zombies)]}{i%5}"))
+                columncount = i % len(zombies) # left to right
+                if columncount == 0:
+                    rowcount += 1
+                btn.SetLabel(str(f"{zombies[i % len(zombies)]}{rowcount}"))
                 btn.SetBackgroundColour(wx.NullColour)
             self.status_bar.SetStatusText("Switched to zombies")
 
@@ -234,12 +268,11 @@ class GridApp(wx.Frame):
             json.dump(self.basejson, output_file, indent=4)
         if self.entity_data_list:
             self.script_directory = os.path.dirname(os.path.abspath(__file__))
-            if self.wavecount == 1:
+            if self.wavecount == 0:
                 while os.path.exists(os.path.join(self.script_directory,f"pirate{self.filecount}.json")):
                     self.filecount +=1
             
             self.wavecount +=1
-            
             
             if self.gridspawns:
                 self.basejson['objects'][10]['objdata']['Waves'].append([f"RTID(Wave{self.wavecount}@CurrentLevel)",f"RTID(deletegrave@.)",f"RTID(GridSpawn{self.wavecount}@.)"])
@@ -363,7 +396,7 @@ class ListFrame(wx.Frame): # to display it
         # Center the window relative to the parent
         self.Centre()
     
-    def on_close(self):
+    def on_close(self,event):
         self.Close()
 
 
