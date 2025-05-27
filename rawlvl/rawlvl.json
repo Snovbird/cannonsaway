@@ -95,31 +95,33 @@
             "objdata": {
                 "InitialPlantPlacements": [
                     {
-                        "GridX": 0,
-                        "GridY": 2,
+                        "GridX": 2,
+                        "GridY": 0,
                         "Level": -1,
-                        "TypeName": "magnifyinggrass"
-                    },
+                        "TypeName": "coconutcannon"},
                     {
                         "GridX": 2,
                         "GridY": 1,
                         "Level": -1,
-                        "TypeName": "coconutcannon",
-                        "Condition": "icecubed"
+                        "TypeName": "coconutcannon"
                     },
                     {
                         "GridX": 2,
                         "GridY": 2,
                         "Level": -1,
-                        "TypeName": "coconutcannon",
-                        "Condition": "icecubed"
+                        "TypeName": "coconutcannon"
+                    },
+                    {
+                        "GridX": 2,
+                        "GridY": 3,
+                        "Level": -1,
+                        "TypeName": "coconutcannon"
                     },
                     {
                         "GridX": 2,
                         "GridY": 4,
                         "Level": -1,
-                        "TypeName": "coconutcannon",
-                        "Condition": "icecubed"
+                        "TypeName": "coconutcannon"
                     }
                 ]
             }
