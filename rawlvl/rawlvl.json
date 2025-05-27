@@ -576,73 +576,7 @@
                 "WaveCount": 1,
                 "WaveSpendingPointIncrement": 60,
                 "WaveSpendingPoints": 600,
-                "Waves": [
-                    [
-                        "RTID(Wave1@CurrentLevel)",
-                        "RTID(GridSpawn1@.)"
-                    ]
-                ]
-            }
-        },
-        {
-            "aliases": [
-                "Wave1"
-            ],
-            "objclass": "SpawnZombiesJitteredWaveActionProps",
-            "objdata": {
-                "AddToZombiePool": [
-                    {
-                        "Type": "RTID(seagull@ZombieTypes)"
-                    }
-                ],
-                "Zombies": [
-                    {
-                        "Row": "1",
-                        "Type": "RTID(pirate_captain_parrot@ZombieTypes)"
-                    },
-                    {
-                        "Row": "1",
-                        "Type": "RTID(pirate_captain_parrot@ZombieTypes)"
-                    },
-                    {
-                        "Row": "1",
-                        "Type": "RTID(pirate_captain_parrot@ZombieTypes)"
-                    }
-                ]
-            }
-        },
-        {
-            "aliases": [
-                "GridSpawn1"
-            ],
-            "objclass": "SpawnGravestonesWaveActionProps",
-            "objdata": {
-                "GravestonePool": [
-                    {
-                        "Count": 99,
-                        "Type": "RTID(SpawnCoconut@.)"
-                    },
-                    {
-                        "Count": 99,
-                        "Type": "RTID(SpawnBanana@.)"
-                    }
-                ],
-                "SpawnPositionsPool": [
-                    {
-                        "mX": 1,
-                        "mY": 1
-                    },
-                    {
-                        "mX": 1,
-                        "mY": 3
-                    }
-                ],
-                "SpawnEffectAnimID": "POPANIM_EFFECTS_PLANT_BURNT",
-                "SpawnSoundID": "Play_Zomb_Egypt_TombRaiser_Grave_Rise",
-                "DisplacePlants": true,
-                "RandomPlacement": true,
-                "ShakeScreen": true,
-                "GridClassesToDestroy": []
+                "Waves": []
             }
         },
         {

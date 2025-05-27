@@ -2,11 +2,12 @@ import wx
 import json
 import os
 
-zombies = ["pirate_captain_parrot","parrotrousle_parrot",'seagull','pelican','skycity_battleplane','skycity_flag','skycity_flag_veteran','skycity_armor(4)','skycity_rocket','skycity_armor(2)','skycity_armor(1)','skycity']
+zombies = ["pirate_captain_parrot","parrotrousle_parrot",'seagull','pelican','skycity_battleplane','skycity','skycity_armor(1)','skycity_armor(2)','skycity_armor(4)','skycity_flag','skycity_flag_veteran','skycity_rocket']
+labelcolors = {"pirate_captain_parrot":"#C70000","parrotrousle_parrot":"#00C753",'seagull':"#C2D300",'pelican':"#FF7300",'skycity_battleplane':"#9E9E9E",'skycity_flag':"#c30202",'skycity_flag_veteran':wx.NullColour,'skycity_armor(4)':wx.NullColour,'skycity_rocket':"#00C7C4",'skycity_armor(2)':wx.NullColour,'skycity_armor(1)':wx.NullColour,'skycity':wx.NullColour}
 
 class GridApp(wx.Frame):
     def __init__(self):
-        super().__init__(None, title="Interactive Button Grid", size=(130*len(zombies), 600))
+        super().__init__(None, title="Cannon's away level maker", size=(126*len(zombies), 600))
         print()
         # Main panel
         self.panel = wx.Panel(self)
@@ -20,7 +21,7 @@ class GridApp(wx.Frame):
         self.wavecount = 0
         self.showing_what = "zombies"
         self.script_directory = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(self.script_directory,'DONOTTOUCH',"rawlvl.json")) as file:
+        with open(os.path.join(self.script_directory,'rawlvl',"rawlvl.json")) as file:
             self.basejson = json.load(file)
 
 
@@ -29,7 +30,7 @@ class GridApp(wx.Frame):
         
         # Create status bar
         self.status_bar = self.CreateStatusBar()
-        self.status_bar.SetStatusText("Ready")
+        self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1} ")
         # Center the window
         self.Centre()
         
@@ -49,6 +50,7 @@ class GridApp(wx.Frame):
                     btn.Bind(wx.EVT_BUTTON, self.on_numbered_button)
                     grid_sizer.Add(btn, 1, wx.EXPAND)
                     self.buttons.append(btn)
+                    btn.SetBackgroundColour(labelcolors[entity_type])
                 else:
                     # Special function buttons
                     func_position = position - 6*len(zombies)  # 0-4
@@ -92,7 +94,7 @@ class GridApp(wx.Frame):
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
             # wx.MessageBox(f"Selected file: {path}", "File Selected")
-            self.status_bar.SetStatusText(f"Selected file: {os.path.basename(path)}")
+            self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1}\t-->" + f"Selected file: {os.path.basename(path)}")
             self.entity_data_list = []
             self.gridspawns = []
             self.gridpos = []
@@ -126,7 +128,7 @@ class GridApp(wx.Frame):
                 self.gridpos.append(lawnpos)
                 self.gridspawns.append(data)
             # Update the status bar
-            self.status_bar.SetStatusText(f"Added: {data}")
+            self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1}\t-->" + f"Added: {data}")
     
     def on_clear_list(self, event): # UNUSED
         #  confirmation dialog
@@ -150,13 +152,13 @@ class GridApp(wx.Frame):
             self.showing_what = "zombies"
             with open(os.path.join(self.script_directory,'DONOTTOUCH',"rawlvl.json")) as file:
                 self.basejson = json.load(file)
-            self.status_bar.SetStatusText("RESET COMPLETE")
+            self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1}\t-->" + "RESET COMPLETE")
         dlg.Destroy()
     
     def on_toggle_buttons(self,event):
         # Toggle between numbers and letters
         if self.showing_what == "zombies":
-            self.status_bar.SetStatusText("Switched to gravestones")
+            self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1}\t-->" + "Switched to gravestones")
 
             self.showing_what = "gravestones"
             self.toggle_btn.SetLabel(f"toggle to\nCOCONUTGIFT")
@@ -180,7 +182,7 @@ class GridApp(wx.Frame):
                 
 
         elif self.showing_what == "gravestones":
-            self.status_bar.SetStatusText("Switched to coconut")
+            self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1}\t-->" + "Switched to coconut")
 
             self.showing_what = "coconut"
             self.toggle_btn.SetLabel(f"toggle to\nBANANAGIFT")
@@ -204,7 +206,7 @@ class GridApp(wx.Frame):
 
 
         elif self.showing_what == "coconut":
-            self.status_bar.SetStatusText("Switched to banana")
+            self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1}\t-->" + "Switched to banana")
 
             self.showing_what = "banana"
             self.toggle_btn.SetLabel(f"toggle to\nPINEAPPLE")
@@ -227,7 +229,7 @@ class GridApp(wx.Frame):
                     btn.SetLabel(f"SpawnBanana@.{rowcount}{columncount}")
             
         elif self.showing_what == "banana":
-            self.status_bar.SetStatusText("Switched to PuffApple")
+            self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1}\t-->" + "Switched to PuffApple")
 
             self.showing_what = "pineapple"
             self.toggle_btn.SetLabel(f"toggle to\nZOMBIES")
@@ -258,9 +260,11 @@ class GridApp(wx.Frame):
                 columncount = i % len(zombies) # left to right
                 if columncount == 0:
                     rowcount += 1
-                btn.SetLabel(str(f"{zombies[i % len(zombies)]}{rowcount}"))
-                btn.SetBackgroundColour(wx.NullColour)
-            self.status_bar.SetStatusText("Switched to zombies")
+                currententity = zombies[columncount]
+                btn.SetLabel(currententity + f'{rowcount}')
+                # btn.SetBackgroundColour(wx.NullColour)
+                btn.SetBackgroundColour(labelcolors[currententity])
+            self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1}\t-->" + "Switched to zombies")
 
     
     def on_nextwave(self,event):
@@ -273,17 +277,21 @@ class GridApp(wx.Frame):
                     self.filecount +=1
             
             self.wavecount +=1
-            
-            if self.gridspawns:
-                self.basejson['objects'][10]['objdata']['Waves'].append([f"RTID(Wave{self.wavecount}@CurrentLevel)",f"RTID(deletegrave@.)",f"RTID(GridSpawn{self.wavecount}@.)"])
-                self.basejson['objects'].append({"aliases":[f"GridSpawn{self.wavecount}"], "objclass": "SpawnGravestonesWaveActionProps", "objdata": { "GravestonePool": self.gridspawns, "SpawnPositionsPool": self.gridpos, "SpawnEffectAnimID": "POPANIM_EFFECTS_PLANT_BURNT", "SpawnSoundID": "Play_Zomb_Egypt_TombRaiser_Grave_Rise", "DisplacePlants": True, "RandomPlacement": True, "ShakeScreen": True, "GridClassesToDestroy": [] }})                    
-            else:
-                pass
-            if self.wavecount == 1:
-                { "aliases": [ "Wave1" ], "objclass": "SpawnZombiesJitteredWaveActionProps", "objdata": { "AddToZombiePool": [ { "Type": "RTID(seagull@ZombieTypes)" } ], "Zombies": self.entity_data_list } },
+
+            # Needs 'AddToZombiePool' attribute when it's wave 1
+            if self.wavecount == 1 :
+                self.basejson['objects'].append({ "aliases": [ "Wave1" ], "objclass": "SpawnZombiesJitteredWaveActionProps", "objdata": { "AddToZombiePool": [ { "Type": "RTID(seagull@ZombieTypes)" } ], "Zombies": self.entity_data_list } })
             else:
                 format_entities = { "aliases": [ f"Wave{self.wavecount}" ], "objclass": "SpawnZombiesJitteredWaveActionProps", "objdata": { "Zombies": self.entity_data_list} }
                 self.basejson['objects'].append(format_entities)
+
+            # Checking if only zombies or if there are grid spawns event
+            if self.gridspawns: # Grid spawns + zombies
+                self.basejson['objects'][10]['objdata']['Waves'].append([f"RTID(Wave{self.wavecount}@CurrentLevel)",f"RTID(deletegrave@.)",f"RTID(GridSpawn{self.wavecount}@.)"])
+                self.basejson['objects'].append({"aliases":[f"GridSpawn{self.wavecount}"], "objclass": "SpawnGravestonesWaveActionProps", "objdata": { "GravestonePool": self.gridspawns, "SpawnPositionsPool": self.gridpos, "SpawnEffectAnimID": "POPANIM_EFFECTS_PLANT_BURNT", "SpawnSoundID": "Play_Zomb_Egypt_TombRaiser_Grave_Rise", "DisplacePlants": True, "RandomPlacement": True, "ShakeScreen": True, "GridClassesToDestroy": [] }})                    
+            else: # only zombies
+                self.basejson['objects'][10]['objdata']['Waves'].append([f"RTID(Wave{self.wavecount}@CurrentLevel)"])
+            
             self.basejson['objects'][10]['objdata']['WaveCount'] = len(self.basejson['objects'][10]['objdata']['Waves'])
 
             with open(os.path.join(self.script_directory,f"pirate{self.filecount}.json"), 'w') as output_file:
@@ -292,7 +300,7 @@ class GridApp(wx.Frame):
             self.entity_data_list = []
             self.gridspawns = []
             self.gridpos = []
-            self.status_bar.SetStatusText("Saved wave: " + str(self.wavecount))
+            self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1}")
         else:
             wx.MessageBox("Needs at least 1 zombie in the wave", "Error", wx.OK | wx.ICON_ERROR)
 
@@ -348,7 +356,8 @@ class GridApp(wx.Frame):
 
     def on_exit(self,event):
         # Close the application
-        if len(self.entity_data_list) % 2 != 0:
+        if self.wavecount % 2 != 0:
+            # print(self.entity_data_list,"\nLISTLENGTH IS",len(self.entity_data_list) % 2 != 0)
             wx.MessageBox("You need an even number of waves", "Error", wx.OK | wx.ICON_ERROR)
         else:
             self.Close()
