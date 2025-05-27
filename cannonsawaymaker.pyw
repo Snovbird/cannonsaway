@@ -123,7 +123,7 @@ class GridApp(wx.Frame):
                 self.entity_data_list.append(data)
             else:
                 spec_entity = entity_type.replace('(','').replace(')','')[:-2].replace("GRAVE",'gravestone_pirate@GridItemTypes')
-                data = {"Count": 99, "Type": f"RTID({spec_entity})"}
+                data = {"Count": 1, "Type": f"RTID({spec_entity})"}
                 lawnpos = {"mX": int(entity_type.replace('(','').replace(')','')[-1]), "mY": int(entity_type.replace('(','').replace(')','')[-2])}
                 self.gridpos.append(lawnpos)
                 self.gridspawns.append(data)
@@ -288,7 +288,7 @@ class GridApp(wx.Frame):
             # Checking if only zombies or if there are grid spawns event
             if self.gridspawns: # Grid spawns + zombies
                 self.basejson['objects'][10]['objdata']['Waves'].append([f"RTID(Wave{self.wavecount}@CurrentLevel)",f"RTID(deletegrave@.)",f"RTID(GridSpawn{self.wavecount}@.)"])
-                self.basejson['objects'].append({"aliases":[f"GridSpawn{self.wavecount}"], "objclass": "SpawnGravestonesWaveActionProps", "objdata": { "GravestonePool": self.gridspawns, "SpawnPositionsPool": self.gridpos, "SpawnEffectAnimID": "POPANIM_EFFECTS_PLANT_BURNT", "SpawnSoundID": "Play_Zomb_Egypt_TombRaiser_Grave_Rise", "DisplacePlants": True, "RandomPlacement": True, "ShakeScreen": True, "GridClassesToDestroy": [] }})                    
+                self.basejson['objects'].append({"aliases":[f"GridSpawn{self.wavecount}"], "objclass": "SpawnGravestonesWaveActionProps", "objdata": { "GravestonePool": self.gridspawns, "SpawnPositionsPool": self.gridpos, "SpawnEffectAnimID": "POPANIM_EFFECTS_PLANT_BURNT", "SpawnSoundID": "Play_Zomb_Egypt_TombRaiser_Grave_Rise", "DisplacePlants": True, "RandomPlacement": False, "ShakeScreen": True, "GridClassesToDestroy": [] }})                    
             else: # only zombies
                 self.basejson['objects'][10]['objdata']['Waves'].append([f"RTID(Wave{self.wavecount}@CurrentLevel)"])
             
