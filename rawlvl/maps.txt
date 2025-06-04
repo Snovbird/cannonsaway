@@ -1,0 +1,16 @@
+PirateStage
+SkyCityStage
+EgyptStage
+WestStage
+DarkStage
+FutureStage
+IceageStage
+LostCityStage
+LostCityVeteranStage
+LostCityNightsStage
+EightiesStage
+EightiesStage
+DinoStage
+ModernStage
+SteamStage
+CarnivalStage

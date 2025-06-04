@@ -1,31 +1,54 @@
 import wx
 import json
 import os
+# zombies = ["pirate_captain_parrot","parrotrousle_parrot",'seagull','pelican','skycity_battleplane','skycity','skycity_armor(1)','skycity_armor(2)','skycity_armor(4)','skycity_flag','skycity_flag_veteran','skycity_rocket']
+# self.labelcolors = {"pirate_captain_parrot":"#C70000","parrotrousle_parrot":"#00C753",'seagull':"#C2D300",'pelican':"#FF7300",'skycity_battleplane':"#9E9E9E",'skycity_flag':"#c30202",'skycity_flag_veteran':wx.NullColour,'skycity_armor(4)':wx.NullColour,'skycity_rocket':"#00C7C4",'skycity_armor(2)':wx.NullColour,'skycity_armor(1)':wx.NullColour,'skycity':wx.NullColour}
 
-zombies = ["pirate_captain_parrot","parrotrousle_parrot",'seagull','pelican','skycity_battleplane','skycity','skycity_armor(1)','skycity_armor(2)','skycity_armor(4)','skycity_flag','skycity_flag_veteran','skycity_rocket']
-labelcolors = {"pirate_captain_parrot":"#C70000","parrotrousle_parrot":"#00C753",'seagull':"#C2D300",'pelican':"#FF7300",'skycity_battleplane':"#9E9E9E",'skycity_flag':"#c30202",'skycity_flag_veteran':wx.NullColour,'skycity_armor(4)':wx.NullColour,'skycity_rocket':"#00C7C4",'skycity_armor(2)':wx.NullColour,'skycity_armor(1)':wx.NullColour,'skycity':wx.NullColour}
-
-class GridApp(wx.Frame):
+class cannonsaway(wx.Frame):
     def __init__(self):
-        super().__init__(None, title="Cannon's away level maker", size=(126*len(zombies), 600))
-        print()
-        # Main panel
-        self.panel = wx.Panel(self)
-        
         # init variables
+        self.multi_btn = None
+        self.multiple = 1
+        self.mapchoice = "PirateStage"
         self.filecount = 1
         self.entity_data_list = []
         self.gridspawns = []
         self.gridpos = []
         self.buttons = []
+        self.zombies = []
+        self.gravestones = []
+        self.labelcolors = {}
         self.wavecount = 0
         self.showing_what = "zombies"
+        self.maps = []
+
+        # os-related variables (using script directory)
         self.script_directory = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(self.script_directory,'rawlvl',"rawlvl.json")) as file:
             self.basejson = json.load(file)
+        with open(os.path.join(self.script_directory,'rawlvl',"zombies.txt")) as file:
+            for read in file.readlines():
+                self.zombies.append(read.replace('\n',''))
+        with open(os.path.join(self.script_directory,'rawlvl',"btn_colors.txt")) as file:
+            temp = []
+            for read in file.readlines():
+                temp.append(read.replace('\n',''))
+            L = len(temp)
+            for n,i in enumerate(self.zombies):
+                if n < L:
+                    self.labelcolors[i] = temp[n]
+                else:
+                    self.labelcolors[i] = wx.NullColour # if there is less colors listed
+        with open(os.path.join(self.script_directory,'rawlvl',"graves.txt")) as file:
+            for read in file.readlines():
+                self.gravestones.append(read.replace('\n',''))
+        with open(os.path.join(self.script_directory,'rawlvl',"maps.txt")) as file:
+            for read in file.readlines():
+                self.maps.append(read.replace('\n',''))
 
-
-        # Create the grid of buttons
+        # Grid app making
+        super().__init__(None, title="Cannon's away level maker", size=(126*len(self.zombies), 600))
+        self.panel = wx.Panel(self)
         self.create_grid()
         
         # Create status bar
@@ -36,24 +59,24 @@ class GridApp(wx.Frame):
         
     def create_grid(self):
         # Create a grid sizer (5 rows, 6 columns)
-        grid_sizer = wx.GridSizer(rows=6, cols=len(zombies), vgap=5, hgap=5)
+        grid_sizer = wx.GridSizer(rows=6, cols=len(self.zombies), vgap=5, hgap=5)
         
         # Add buttons 1-25 followed by the 5 special function buttons
         for row in range(5):  # 6 rows
-            for col, entity_type in enumerate(zombies):  # depending on how many zombies
+            for col, entity_type in enumerate(self.zombies):  # depending on how many zombies
                 # Calculate the position in the grid (0-29)
                 position = row * 6 + col
                 
-                if position < 6*len(zombies):
+                if position < 6*len(self.zombies):
                     # Numbered buttons (1-25)
                     btn = wx.Button(self.panel, label=f"{entity_type}{row}")
                     btn.Bind(wx.EVT_BUTTON, self.on_numbered_button)
                     grid_sizer.Add(btn, 1, wx.EXPAND)
                     self.buttons.append(btn)
-                    btn.SetBackgroundColour(labelcolors[entity_type])
+                    btn.SetBackgroundColour(self.labelcolors[entity_type])
                 else:
                     # Special function buttons
-                    func_position = position - 6*len(zombies)  # 0-4
+                    func_position = position - 6*len(self.zombies)  # 0-4
                     
         # Button 1: Clear list after confirmation
         browse_btn = wx.Button(self.panel, label="Browse Jsons")
@@ -73,7 +96,17 @@ class GridApp(wx.Frame):
         display_btn = wx.Button(self.panel, label="DISPLAY")
         display_btn.Bind(wx.EVT_BUTTON, self.on_display)
         grid_sizer.Add(display_btn, 1, wx.EXPAND)
-        # Button 5: Exit
+    # Button 6: Dropdown Menu
+        self.dropdown = wx.Choice(self.panel, choices=self.maps)
+        self.dropdown.Bind(wx.EVT_CHOICE, self.on_dropdown_select)
+        self.dropdown.SetBackgroundColour(wx.WHITE)  # Match button background color
+        self.dropdown.SetForegroundColour(wx.BLACK)  # Match button text color
+        grid_sizer.Add(self.dropdown, 1, wx.EXPAND)
+        #Button 7: Multiply by 3        
+        self.multi_btn = wx.Button(self.panel, label="Multiply by 3")
+        self.multi_btn.Bind(wx.EVT_BUTTON, self.on_multiply)
+        grid_sizer.Add(self.multi_btn, 1, wx.EXPAND)
+        # Button 8: Gi initial
         initgi_btn = wx.Button(self.panel, label="GI\nInitial")
         initgi_btn.Bind(wx.EVT_BUTTON, self.on_chooseGI)
         grid_sizer.Add(initgi_btn, 1, wx.EXPAND)
@@ -120,7 +153,8 @@ class GridApp(wx.Frame):
             if self.showing_what == "zombies":
                 # Create a dictionary and append to the list
                 data = {"Row": int(entity_type.replace('(','').replace(')','')[-1]), "Type": f"RTID({entity_type.replace('(','').replace(')','')[:-1]}@ZombieTypes)"}
-                self.entity_data_list.append(data)
+                for instances in range(self.multiple):
+                    self.entity_data_list.append(data)
             else:
                 spec_entity = entity_type.replace('(','').replace(')','')[:-2].replace("GRAVE",'gravestone_pirate@GridItemTypes')
                 data = {"Count": 1, "Type": f"RTID({spec_entity})"}
@@ -157,6 +191,7 @@ class GridApp(wx.Frame):
     
     def on_toggle_buttons(self,event):
         # Toggle between numbers and letters
+        columncount = i % len(self.zombies) # left to right
         if self.showing_what == "zombies":
             self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1}\t-->" + "Switched to gravestones")
 
@@ -165,9 +200,7 @@ class GridApp(wx.Frame):
             self.toggle_btn.SetBackgroundColour("#FFB55B")
             rowcount = -1
             for i, btn in enumerate(self.buttons):
-                # columncount = (i % len(zombies)) + 9 - len(zombies) # for right to left
-                columncount = i % len(zombies) # left to right
-                
+                # columncount = (i % len(zombies)) + 9 - len(zombies) # for right to left                
                 if columncount == 0:
                     rowcount += 1
                 if columncount > 4 and columncount <= 8:
@@ -190,8 +223,6 @@ class GridApp(wx.Frame):
             rowcount = -1 
             for i, btn in enumerate(self.buttons):
                 # columncount = (i % len(zombies)) + 9 - len(zombies) # for right to left
-                columncount = i % len(zombies) # left to right
-
                 if columncount == 0:
                     rowcount += 1
                 if columncount > 4 and columncount <= 8:
@@ -214,8 +245,6 @@ class GridApp(wx.Frame):
             rowcount = -1
             for i, btn in enumerate(self.buttons):
                 # columncount = (i % len(zombies)) + 9 - len(zombies) # for right to left
-                columncount = i % len(zombies) # left to right
-
                 if columncount == 0:
                     rowcount += 1
                 if columncount > 4 and columncount <= 8:
@@ -237,8 +266,6 @@ class GridApp(wx.Frame):
             rowcount = -1
             for i, btn in enumerate(self.buttons):
                 # columncount = (i % len(zombies)) + 9 - len(zombies) # for right to left
-                columncount = i % len(zombies) # left to right
-
                 if columncount == 0:
                     rowcount += 1
                 if columncount > 4 and columncount <= 8:
@@ -257,16 +284,14 @@ class GridApp(wx.Frame):
             rowcount = -1
             
             for i, btn in enumerate(self.buttons):
-                columncount = i % len(zombies) # left to right
                 if columncount == 0:
                     rowcount += 1
-                currententity = zombies[columncount]
+                currententity = self.zombies[columncount]
                 btn.SetLabel(currententity + f'{rowcount}')
                 # btn.SetBackgroundColour(wx.NullColour)
-                btn.SetBackgroundColour(labelcolors[currententity])
+                btn.SetBackgroundColour(self.labelcolors[currententity])
             self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1}\t-->" + "Switched to zombies")
 
-    
     def on_nextwave(self,event):
         with open(os.path.join(self.script_directory,f"pirate{self.filecount}.json"), 'w') as output_file:
             json.dump(self.basejson, output_file, indent=4)
@@ -293,6 +318,7 @@ class GridApp(wx.Frame):
                 self.basejson['objects'][10]['objdata']['Waves'].append([f"RTID(Wave{self.wavecount}@CurrentLevel)"])
             
             self.basejson['objects'][10]['objdata']['WaveCount'] = len(self.basejson['objects'][10]['objdata']['Waves'])
+            self.basejson['objects'][0]['objdata']['StageModule'] = f'RTID({self.mapchoice}@LevelModules)'
 
             with open(os.path.join(self.script_directory,f"pirate{self.filecount}.json"), 'w') as output_file:
                 json.dump(self.basejson, output_file, indent=4) #pretty formatting
@@ -314,45 +340,88 @@ class GridApp(wx.Frame):
             def __init__(subself, parent):
                 super().__init__(parent, title="Place Grid Items", size=(600, 450))
                 subself.panel = wx.Panel(subself)
+                subself.griddicts = self.basejson['objects'][4]['objdata']['InitialGridItemPlacements'].copy()
+
                 subself.subcreate_grid()
                 subself.Centre()
-                subself.griddicts = []
+                subself.chosengi = 'gravestone_pirate'
 
             def subcreate_grid(subself):
                 subgrid_sizer = wx.GridSizer(rows=6, cols=5, vgap=5, hgap=5)
-                
-                for row in range(5):  # 6 rows
+                savegi = []
+                for n,gi in enumerate(subself.griddicts):
+                    if n != 0:
+                        savegi.append(str(gi['GridX']) + str(gi['GridY']))
+                for row in range(5):  # 5 rows of buttons
                     for col in range(5): # 5 columns
-                        subbtn = wx.Button(subself.panel, label=f"{row}{col}") # .replace("GRAVE",'gravestone_pirate@GridItemTypes')
+                        subbtn = wx.Button(subself.panel, label=f"{row}{col}")
                         subbtn.Bind(wx.EVT_BUTTON, subself.on_button)
                         if col == 0:
                             subbtn.SetBackgroundColour("#6D4B4B")
+                        if len(subself.griddicts) > 1:
+                            if str(col) + str(row) in savegi:
+                                subbtn.SetBackgroundColour("#4D4D4D")
                         subgrid_sizer.Add(subbtn, 1, wx.EXPAND)
-                # Save and quit
-                subbtn = wx.Button(subself.panel, label=f"WRITE") # .replace("GRAVE",'gravestone_pirate@GridItemTypes')
+                # Save and write
+                subbtn = wx.Button(subself.panel, label=f"WRITE") 
                 subbtn.Bind(wx.EVT_BUTTON, subself.on_saveinitgrid)
                 subgrid_sizer.Add(subbtn, 1, wx.EXPAND)
-
+                # change gi
+                subself.dropdowngi = wx.Choice(subself.panel, choices=self.gravestones)
+                subself.dropdowngi.Bind(wx.EVT_CHOICE, subself.on_dropdowngi)
+                subself.dropdowngi.SetBackgroundColour(wx.WHITE)  # Match button background color
+                subself.dropdowngi.SetForegroundColour(wx.BLACK)  # Match button text color
+                subgrid_sizer.Add(subself.dropdowngi, 1, wx.EXPAND)
+            
                 subself.panel.SetSizer(subgrid_sizer)
 
             def on_button(subself, subevent):
                 subbtn = subevent.GetEventObject()
-                subbtn.SetBackgroundColour("#4D4D4D")
-                gipos = subbtn.GetLabel()
-                dictofgi = { "GridX": int(gipos[-1]), "GridY": int(gipos[-2]), "Level": -1, "TypeName": "gravestone_pirate" }
-                subself.griddicts.append(dictofgi)
-
+                col, row = int(subbtn.GetLabel()[-1]), int(subbtn.GetLabel()[-2])
+                
+                dictofgi = { "GridX": col, "GridY": row, "Level": -1, "TypeName": subself.chosengi }
+                if dictofgi in subself.griddicts:
+                    for n,name in enumerate(subself.griddicts):
+                        if name == dictofgi:
+                            del subself.griddicts[n]
+                            subbtn.SetBackgroundColour(wx.NullColour)
+                else:
+                    subbtn.SetBackgroundColour("#4D4D4D")
+                    subself.griddicts.append(dictofgi)
+            
             def on_saveinitgrid(subself,subevent):                    
                 if subself.griddicts:
-                    for grt in subself.griddicts:
-                        self.basejson['objects'][4]['objdata']['InitialGridItemPlacements'].append(grt)
-                    else:
-                        pass
+                    self.basejson['objects'][4]['objdata']['InitialGridItemPlacements'] = subself.griddicts.copy()
                 subself.Close()
+
+            def on_dropdowngi(subself, event):
+                # Get the selected value and assign it to a variable
+                selection = self.dropdown.GetSelection()
+                if selection != wx.NOT_FOUND:
+                    selected_value = self.dropdown.GetString(selection)
+                    # Update the status bar or perform an action with the selected value
+                subself.chosengi = self.gravestones[selection]
+                print('gi:',self.mapchoice)
 
         # run the subclass
         chooseGI(self).Show()
 
+    def on_dropdown_select(self, event):
+        # Get the selected value and assign it to a variable
+        selection = self.dropdown.GetSelection()
+        if selection != wx.NOT_FOUND:
+            selected_value = self.dropdown.GetString(selection)
+            # Update the status bar or perform an action with the selected value
+        self.mapchoice = self.maps[selection]
+        print('map:',self.mapchoice)
+
+    def on_multiply(self,event):
+        if self.multiple == 1:
+            self.multiple = 3
+            self.multi_btn.SetBackgroundColour("#FF8C00")
+        else:
+            self.multiple = 1
+            self.multi_btn.SetBackgroundColour(wx.NullColour)
 
     def on_exit(self,event):
         # Close the application
@@ -361,10 +430,7 @@ class GridApp(wx.Frame):
             wx.MessageBox("You need an even number of waves", "Error", wx.OK | wx.ICON_ERROR)
         else:
             self.Close()
-    
-
-                
-
+            os.startfile(self.script_directory)    
 
 class ListFrame(wx.Frame): # to display it
     def __init__(self, parent, data_list,grid_list):
@@ -412,6 +478,6 @@ class ListFrame(wx.Frame): # to display it
 
 if __name__ == "__main__":
     app = wx.App()
-    frame = GridApp()
+    frame = cannonsaway()
     frame.Show()
     app.MainLoop()

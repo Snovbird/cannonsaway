@@ -1,5 +1,5 @@
 {
-    "#comment": "ShipWreck - Pandemonium - Snowbird | ELM: Ver-10.2 [RFL v1.23]",
+    "#comment": "ShipWreck - Cannons' Away - Snowbird | ELM: Ver-10.2 [RFL v1.23]",
     "objects": [
         {
             "objclass": "LevelDefinition",
@@ -28,7 +28,7 @@
                     "RTID(Rails@CurrentLevel)"
                 ],
                 "MusicType": "MiniGame_B",
-                "Name": "ShipWreck - BONUS - SNowbird - TEST",
+                "Name": "ShipWreck - Artillery Bonanza - Snowbird",
                 "NormalPresentTable": "pirate_normal_01",
                 "ReplayRewardParam": "none",
                 "ReplayRewardType": "none",

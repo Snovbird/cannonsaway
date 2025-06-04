@@ -1,0 +1,12 @@
+pirate_captain_parrot
+parrotrousle_parrot
+seagull
+pelican
+skycity_battleplane
+skycity
+skycity_armor(1)
+skycity_armor(2)
+skycity_armor(4)
+skycity_flag
+skycity_flag_veteran
+skycity_rocket
