@@ -79,7 +79,7 @@ class cannonsaway(wx.Frame):
                     func_position = position - 6*len(self.zombies)  # 0-4
                     
         # Button 1: Clear list after confirmation
-        browse_btn = wx.Button(self.panel, label="Browse Jsons")
+        browse_btn = wx.Button(self.panel, label="Continue\nlvl making")
         browse_btn.Bind(wx.EVT_BUTTON, self.on_browse_files)
         grid_sizer.Add(browse_btn, 1, wx.EXPAND)
         # Button 2: toggle 
@@ -191,7 +191,6 @@ class cannonsaway(wx.Frame):
     
     def on_toggle_buttons(self,event):
         # Toggle between numbers and letters
-        columncount = i % len(self.zombies) # left to right
         if self.showing_what == "zombies":
             self.status_bar.SetStatusText("Current Wave: " + f"{self.wavecount+1}\t-->" + "Switched to gravestones")
 
@@ -200,6 +199,8 @@ class cannonsaway(wx.Frame):
             self.toggle_btn.SetBackgroundColour("#FFB55B")
             rowcount = -1
             for i, btn in enumerate(self.buttons):
+                columncount = i % len(self.zombies) # left to right
+
                 # columncount = (i % len(zombies)) + 9 - len(zombies) # for right to left                
                 if columncount == 0:
                     rowcount += 1
@@ -222,6 +223,7 @@ class cannonsaway(wx.Frame):
             self.toggle_btn.SetBackgroundColour("#FFDE59")
             rowcount = -1 
             for i, btn in enumerate(self.buttons):
+                columncount = i % len(self.zombies) # left to right
                 # columncount = (i % len(zombies)) + 9 - len(zombies) # for right to left
                 if columncount == 0:
                     rowcount += 1
@@ -244,6 +246,8 @@ class cannonsaway(wx.Frame):
             self.toggle_btn.SetBackgroundColour("#00FF15")
             rowcount = -1
             for i, btn in enumerate(self.buttons):
+                columncount = i % len(self.zombies) # left to right
+
                 # columncount = (i % len(zombies)) + 9 - len(zombies) # for right to left
                 if columncount == 0:
                     rowcount += 1
@@ -265,6 +269,8 @@ class cannonsaway(wx.Frame):
             self.toggle_btn.SetBackgroundColour(wx.NullColour)
             rowcount = -1
             for i, btn in enumerate(self.buttons):
+                columncount = i % len(self.zombies) # left to right
+
                 # columncount = (i % len(zombies)) + 9 - len(zombies) # for right to left
                 if columncount == 0:
                     rowcount += 1
@@ -284,6 +290,8 @@ class cannonsaway(wx.Frame):
             rowcount = -1
             
             for i, btn in enumerate(self.buttons):
+                columncount = i % len(self.zombies) # left to right
+
                 if columncount == 0:
                     rowcount += 1
                 currententity = self.zombies[columncount]
